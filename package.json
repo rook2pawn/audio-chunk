@@ -1,0 +1,27 @@
+{
+  "name": "audio-chunk",
+  "version": "1.0.0",
+  "description": "Standardized structure for real-time audio chunks used in AI pipelines (e.g., STT, replay, monitoring)",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    }
+  },
+  "keywords": [
+    "audio",
+    "chunk",
+    "streaming",
+    "whisper",
+    "real-time",
+    "webRTC",
+    "RTP"
+  ],
+  "author": "David Wee <rook2pawn@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cbor": "^10.0.3"
+  }
+}
