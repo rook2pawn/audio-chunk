@@ -1,6 +1,15 @@
+# links
+
+* Github [https://github.com/rook2pawn/audio-chunk](https://github.com/rook2pawn/audio-chunk)
+
+
 # @rook2pawn/audio-chunk
 
 A shared module for real-time audio systems built around a common `AudioChunk` structure. Designed to support streaming, serialization, transport, observability, and playback for use cases like AI-driven speech applications (e.g., STT, TTS, audio routing, and replay).
+
+# Why Async Iterables for Audio?
+
+This module is built on top of AsyncIterable<AudioChunk> because it provides a natural, backpressure-aware way to stream audio in real time. Unlike event-driven or buffer-based systems, async iterables let the consumer control the flow
 
 ---
 
@@ -123,6 +132,32 @@ Or WebSocket:
 ```js
 sendChunkOverWS(ws, chunk);
 ```
+
+## Summary 
+
+| File / Module                           | Purpose                                                                | Key Exports / Concepts                          |
+|----------------------------------------|------------------------------------------------------------------------|--------------------------------------------------|
+| `AudioChunk.ts`                        | Defines the core audio unit with data, timestamp, encoding             | `AudioChunk`, `AudioChunkProps`                 |
+| `AudioChunkStream.ts`                  | Type alias for a pull-based audio stream                               | `AudioChunkStream = AsyncIterable<AudioChunk>`  |
+| `utils/encode_decode.ts`               | Binary (CBOR), JSON, and base64 serializers                            | `encodeAudioChunkBinary`, `decodeAudioChunkBinary` |
+| `utils/transport.ts`                   | Transport helpers for HTTP and WebSocket delivery                      | `sendChunkOverWS`, `postChunk`                  |
+| `utils/AudioChunkStream/stream.ts`     | Converts event emitters to streams, handles side-effect sinks          | `streamFromWebSocket`, `pipeToWritableStream`   |
+| `utils/AudioChunkStream/transform.ts`  | Functional transformation of streams                                   | `mapAudioChunkStream`                           |
+| `utils/AudioChunkStream/buffer.ts`     | Replay-friendly in-memory buffer of recent audio chunks                | `AudioChunkBuffer`                              |
+
+
+## Module goals
+
+| Area            | What It Provides                          |
+|-----------------|-------------------------------------------|
+| Data Modeling   | `AudioChunk` – a normalized audio unit    |
+| Serialization   | Encoding/decoding for wire transmission   |
+| Transport       | Stream-safe delivery via HTTP, WS         |
+| Streaming       | Async generators as core transport method |
+| Transformations | Clean pipeline building (`map`, `pipe`)   |
+May| Observability   | Replay buffer and potential dashboarding  |
+
+
 
 ## 🔮 Future Roadmap
 * RTP adapter for low-level packet transmission
